@@ -1,48 +1,46 @@
-// API client for Household Workers App
-
-class ApiClient {
+class API {
     constructor() {
         this.baseURL = '/api';
-        this.token = localStorage.getItem('token');
+        this.token = localStorage.getItem('token') || null;
     }
     
+    // Set authentication token
     setToken(token) {
         this.token = token;
         localStorage.setItem('token', token);
     }
     
+    // Clear authentication token
     clearToken() {
         this.token = null;
         localStorage.removeItem('token');
     }
     
+    // Make HTTP request
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            },
-            ...options
+        const headers = {
+            'Content-Type': 'application/json',
+            ...options.headers
         };
         
         if (this.token) {
-            config.headers.Authorization = `Bearer ${this.token}`;
+            headers['Authorization'] = `Bearer ${this.token}`;
         }
         
-        try {
-            const response = await fetch(url, config);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.error || 'API request failed');
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('API request error:', error);
-            throw error;
+        const config = {
+            headers,
+            ...options
+        };
+        
+        const response = await fetch(url, config);
+        
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
         }
+        
+        return response.json();
     }
     
     // Auth endpoints
@@ -102,11 +100,49 @@ class ApiClient {
             body: JSON.stringify({ worker_id: workerId })
         });
     }
+    
+    // Payment endpoints
+    async createPayment(paymentData) {
+        return this.request('/payments', {
+            method: 'POST',
+            body: JSON.stringify(paymentData)
+        });
+    }
+    
+    async getPayments(filters = {}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        const endpoint = `/payments${queryParams ? `?${queryParams}` : ''}`;
+        return this.request(endpoint);
+    }
+    
+    async getPayment(id) {
+        return this.request(`/payments/${id}`);
+    }
+    
+    async updatePaymentStatus(paymentId, status) {
+        return this.request(`/payments/${paymentId}/status`, {
+            method: 'PUT',
+            body: JSON.stringify({ status })
+        });
+    }
+    
+    // Review endpoints
+    async createReview(reviewData) {
+        return this.request('/reviews', {
+            method: 'POST',
+            body: JSON.stringify(reviewData)
+        });
+    }
+    
+    async getReviews(filters = {}) {
+        const queryParams = new URLSearchParams(filters).toString();
+        const endpoint = `/reviews${queryParams ? `?${queryParams}` : ''}`;
+        return this.request(endpoint);
+    }
+    
+    async getReview(id) {
+        return this.request(`/reviews/${id}`);
+    }
 }
 
-// Create a global instance
-const api = new ApiClient();
-
-// Export for use in other files
-window.ApiClient = ApiClient;
-window.api = api;
+const api = new API();

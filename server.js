@@ -8,6 +8,8 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const workersRoutes = require('./routes/workers');
 const jobsRoutes = require('./routes/jobs');
+const paymentsRoutes = require('./routes/payments');
+const reviewsRoutes = require('./routes/reviews');
 const healthRoutes = require('./routes/health');
 
 // Import database initialization
@@ -33,6 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/workers', workersRoutes);
 app.use('/api/jobs', jobsRoutes);
+app.use('/api/payments', paymentsRoutes);
+app.use('/api/reviews', reviewsRoutes);
 app.use('/api/health', healthRoutes);
 
 app.get('/', (req, res) => {
