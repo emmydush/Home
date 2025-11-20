@@ -2611,3 +2611,192 @@ body {
     border-radius: 8px;
     text-align: center;
 }
+
+/* Enhanced Responsive Design for Home Page */
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 0;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .cta-buttons .btn {
+        width: 80%;
+        max-width: 300px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .features {
+        padding: 3rem 0;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .feature-icon {
+        font-size: 2rem;
+    }
+    
+    .how-it-works {
+        padding: 3rem 0;
+    }
+    
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .testimonials {
+        padding: 3rem 0;
+    }
+    
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem;
+    }
+    
+    .site-footer {
+        padding: 2rem 0 1rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer-column {
+        text-align: center;
+    }
+    
+    .footer-column ul {
+        padding: 0;
+        list-style-position: inside;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 2rem 0;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.6rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+    
+    .cta-buttons .btn {
+        width: 90%;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .features-grid,
+    .steps,
+    .testimonial-grid {
+        gap: 1rem;
+    }
+    
+    .feature-card,
+    .testimonial-card {
+        padding: 1rem;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .feature-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .footer-grid {
+        gap: 1rem;
+    }
+    
+    .footer-column h3,
+    .footer-column h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+}
+
+/* Ensure proper mobile viewport handling */
+@media (max-width: 320px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.4rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+    }
+    
+    .feature-card h3,
+    .step h3 {
+        font-size: 1.1rem;
+    }
+}
