@@ -99,9 +99,14 @@ The application uses PostgreSQL with the following key tables:
 2. Create a new Web Service on Render
 3. Connect your GitHub repository
 4. Set the following environment variables in Render:
-   - `DATABASE_URL` - Your PostgreSQL database connection string
-   - `JWT_SECRET` - Your JWT secret key
-   - `PORT` - 10000 (Render's default port)
+   - `DATABASE_URL` - postgresql://work_db_2rli_user:XOAOamHE3Kf1QbF0Z9ymutGsmRZYcLOb@dpg-d4fd86qli9vc73ad0tr0-a/work_db_2rli
+   - `DB_USER` - work_db_2rli_user
+   - `DB_HOST` - dpg-d4fd86qli9vc73ad0tr0-a
+   - `DB_PASSWORD` - XOAOamHE3Kf1QbF0Z9ymutGsmRZYcLOb
+   - `DB_PORT` - 5432
+   - `DB_NAME` - work_db_2rli
+   - `JWT_SECRET` - your-jwt-secret-key
+   - `PORT` - 10000
 5. Add the build command: `npm install`
 6. Add the start command: `npm start`
 
