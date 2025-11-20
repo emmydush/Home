@@ -31,8 +31,9 @@ This directory contains all the GitHub Actions workflows for the Household Worke
 - Uses Render webhook for deployment triggering
 - Includes health checks and notifications
 
-### 5. Docker Build and Push (`docker.yml`)
-- Runs on push to `main` branch and tags
+### 5. Docker Build and Push (`docker.yml.disabled`)
+- Disabled workflow for Docker deployment
+- Can be re-enabled by removing the `.disabled` extension
 - Builds and pushes Docker images
 - Automatically tags images based on Git metadata
 
@@ -43,7 +44,7 @@ To use these workflows, you need to set up the following secrets in your GitHub 
 1. For Render deployment:
    - `RENDER_DEPLOY_KEY` - Your Render deploy key (https://api.render.com/deploy/srv-d4fdmcn5r7bs73clkom0?key=82bdFZ4pa98)
 
-2. For Docker deployment (optional):
+2. For Docker deployment (optional, if re-enabling):
    - `DOCKERHUB_USERNAME` - Your DockerHub username
    - `DOCKERHUB_TOKEN` - Your DockerHub access token
 
@@ -69,7 +70,7 @@ You may need to customize the following in the workflow files:
    - ESLint and Prettier configurations
    - Security audit thresholds
 
-5. In `docker.yml`:
+5. In `docker.yml.disabled` (if re-enabling):
    - Docker image name
    - Tagging strategy
 
