@@ -117,10 +117,11 @@ This project includes several GitHub Actions workflows for continuous integratio
 
 ### Render Deployment
 - Automated deployment to Render on push to main branch
-- Uses Render API for deployment triggering
+- Uses Render deploy key for deployment triggering
 - Health checks and notifications
 
-To use these workflows, you need to set up the required secrets in your GitHub repository settings.
+To use these workflows, you need to set up the required secrets in your GitHub repository settings:
+- `RENDER_DEPLOY_KEY` - Your Render deploy key (https://api.render.com/deploy/srv-d4fdmcn5r7bs73clkom0?key=82bdFZ4pa98)
 
 ## Project Structure
 

@@ -27,8 +27,8 @@ This directory contains all the GitHub Actions workflows for the Household Worke
 
 ### 4. Deploy to Render (`render-deploy.yml`)
 - Runs on push to `main` branch
-- Deploys the application to Render using service ID and API key
-- Uses Render API for deployment triggering
+- Deploys the application to Render using deploy key
+- Uses Render webhook for deployment triggering
 - Includes health checks and notifications
 
 ### 5. Docker Build and Push (`docker.yml`)
@@ -41,8 +41,7 @@ This directory contains all the GitHub Actions workflows for the Household Worke
 To use these workflows, you need to set up the following secrets in your GitHub repository:
 
 1. For Render deployment:
-   - `RENDER_SERVICE_ID` - Your Render service ID (srv-d4fdmcn5r7bs73clkom0)
-   - `RENDER_API_KEY` - Your Render API key (rnd_iGi64RGU26WVdpwOYCPJdzQSv3PU)
+   - `RENDER_DEPLOY_KEY` - Your Render deploy key (https://api.render.com/deploy/srv-d4fdmcn5r7bs73clkom0?key=82bdFZ4pa98)
 
 2. For Docker deployment (optional):
    - `DOCKERHUB_USERNAME` - Your DockerHub username
@@ -82,4 +81,4 @@ If workflows fail, check the following:
 2. Verify that the Node.js and PostgreSQL versions are compatible
 3. Check that all npm scripts referenced in the workflows exist
 4. Review the logs for specific error messages
-5. For Render deployment, ensure the service ID and API key are correct
+5. For Render deployment, ensure the deploy key is correct
