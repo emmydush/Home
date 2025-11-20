@@ -127,7 +127,7 @@
                     submitButton.disabled = false;
                     
                     // Show success message
-                    alert('Account created successfully! Please check your email for verification.');
+                    showSuccessDialog('Account created successfully! Please check your email for verification.');
                     
                     // Store token and redirect based on role
                     api.setToken(response.token);

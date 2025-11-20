@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 // In a real app, you would send this data to your server
                 console.log('Form submitted:', data);
                 
-                // Show success message
-                alert('Form submitted successfully!');
+                // Show success message with dialog box
+                showSuccessDialog('Form submitted successfully!');
                 form.reset();
             } else {
-                alert('Please fill in all required fields.');
+                showErrorDialog('Please fill in all required fields.');
             }
         });
     });
@@ -116,6 +116,128 @@ function showNotification(message, type = 'info') {
             notification.parentNode.removeChild(notification);
         }
     }, 3000);
+}
+
+// Show success dialog function
+function showSuccessDialog(message) {
+    // Create dialog if it doesn't exist
+    let dialog = document.getElementById('success-dialog');
+    if (!dialog) {
+        dialog = createSuccessDialog();
+    }
+    
+    // Set message and show dialog
+    const content = dialog.querySelector('.dialog-content');
+    if (content) {
+        content.textContent = message;
+    }
+    
+    dialog.classList.add('show');
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        dialog.classList.remove('show');
+    }, 5000);
+}
+
+// Show error dialog function
+function showErrorDialog(message) {
+    // Create dialog if it doesn't exist
+    let dialog = document.getElementById('error-dialog');
+    if (!dialog) {
+        dialog = createErrorDialog();
+    }
+    
+    // Set message and show dialog
+    const content = dialog.querySelector('.dialog-content');
+    if (content) {
+        content.textContent = message;
+    }
+    
+    dialog.classList.add('show');
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        dialog.classList.remove('show');
+    }, 5000);
+}
+
+// Create success dialog element
+function createSuccessDialog() {
+    const dialog = document.createElement('div');
+    dialog.className = 'dialog-box';
+    dialog.id = 'success-dialog';
+    dialog.innerHTML = `
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✓</span>
+            <h3 class="dialog-title">Success</h3>
+        </div>
+        <div class="dialog-content">
+            Operation completed successfully!
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-primary">OK</button>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    
+    // Add event listeners
+    const closeBtn = dialog.querySelector('.dialog-close');
+    const okBtn = dialog.querySelector('.btn-dialog');
+    
+    const closeDialog = () => dialog.classList.remove('show');
+    
+    closeBtn.addEventListener('click', closeDialog);
+    okBtn.addEventListener('click', closeDialog);
+    
+    dialog.addEventListener('click', function(e) {
+        if (e.target === dialog) {
+            closeDialog();
+        }
+    });
+    
+    return dialog;
+}
+
+// Create error dialog element
+function createErrorDialog() {
+    const dialog = document.createElement('div');
+    dialog.className = 'dialog-box error';
+    dialog.id = 'error-dialog';
+    dialog.innerHTML = `
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✗</span>
+            <h3 class="dialog-title">Error</h3>
+        </div>
+        <div class="dialog-content">
+            An error occurred. Please try again.
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-secondary">OK</button>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    
+    // Add event listeners
+    const closeBtn = dialog.querySelector('.dialog-close');
+    const okBtn = dialog.querySelector('.btn-dialog');
+    
+    const closeDialog = () => dialog.classList.remove('show');
+    
+    closeBtn.addEventListener('click', closeDialog);
+    okBtn.addEventListener('click', closeDialog);
+    
+    dialog.addEventListener('click', function(e) {
+        if (e.target === dialog) {
+            closeDialog();
+        }
+    });
+    
+    return dialog;
 }
 
 // Example of how to use the notification function
