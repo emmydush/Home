@@ -38,7 +38,7 @@ jobs:
     - name: Wait for deployment
       run: |
         echo "Waiting for deployment to complete..."
-        sleep 30s
+        sleep 60s
 
     - name: Check deployment status
       run: |

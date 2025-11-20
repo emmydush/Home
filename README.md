@@ -107,8 +107,12 @@ The application uses PostgreSQL with the following key tables:
    - `DB_NAME` - work_db_2rli
    - `JWT_SECRET` - your-jwt-secret-key
    - `PORT` - 10000
-5. Add the build command: `npm install`
+5. Add the build command: `npm install && npm run render:init`
 6. Add the start command: `npm start`
+7. After deployment, you can access the admin panel with:
+   - Email: admin@example.com
+   - Password: admin123
+   - ⚠️ Please change the default password after first login!
 
 ## GitHub Workflows
 
@@ -127,6 +131,7 @@ This project includes several GitHub Actions workflows for continuous integratio
 
 To use these workflows, you need to set up the required secrets in your GitHub repository settings:
 - `RENDER_DEPLOY_KEY` - Your Render deploy key (https://api.render.com/deploy/srv-d4fdmcn5r7bs73clkom0?key=82bdFZ4pa98)
+- `RENDER_API_KEY` - Your Render API key (rnd_iGi64RGU26WVdpwOYCPJdzQSv3PU)
 
 ## Project Structure
 
