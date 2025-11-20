@@ -1,965 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Household Workers Platform</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="site-header">
-        <div class="container">
-            <div class="logo">
-                <h1>Household<span>Workers</span></h1>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#" id="logout-link">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Dashboard -->
-    <section class="dashboard">
-        <div class="container">
-            <div class="dashboard-header">
-                <div>
-                    <h1>Welcome, <span id="user-name">User</span></h1>
-                    <p id="user-role">Role: <span>Employer/Worker</span></p>
-                </div>
-                <div class="dashboard-header-actions">
-                    <button class="btn btn-primary" id="create-job-btn" style="display: none;">Create New Job</button>
-                </div>
-            </div>
-            
-            <div class="dashboard-content">
-                <div class="dashboard-sidebar">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" data-target="overview">
-                                <span class="nav-icon">📊</span> Overview
-                            </a>
-                        </li>
-                        <li class="nav-item" id="profile-nav-item">
-                            <a class="nav-link" href="#" data-target="profile">
-                                <span class="nav-icon">👤</span> My Profile
-                            </a>
-                        </li>
-                        <li class="nav-item" id="jobs-nav-item">
-                            <a class="nav-link" href="#" data-target="jobs">
-                                <span class="nav-icon">💼</span> My Jobs
-                            </a>
-                        </li>
-                        <li class="nav-item" id="workers-nav-item" style="display: none;">
-                            <a class="nav-link" href="#" data-target="workers">
-                                <span class="nav-icon">👷</span> Browse Workers
-                            </a>
-                        </li>
-                        <li class="nav-item" id="messages-nav-item">
-                            <a class="nav-link" href="#" data-target="messages">
-                                <span class="nav-icon">💬</span> Messages
-                            </a>
-                        </li>
-                        <li class="nav-item" id="payments-nav-item">
-                            <a class="nav-link" href="#" data-target="payments">
-                                <span class="nav-icon">💰</span> Payments
-                            </a>
-                        </li>
-                        <li class="nav-item" id="settings-nav-item">
-                            <a class="nav-link" href="#" data-target="settings">
-                                <span class="nav-icon">⚙️</span> Settings
-                            </a>
-                        </li>
-                        <!-- Admin-specific navigation -->
-                        <li class="nav-item" id="admin-nav-item" style="display: none;">
-                            <a class="nav-link" href="#" data-target="admin">
-                                <span class="nav-icon">🛡️</span> Admin Panel
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="dashboard-main">
-                    <!-- Overview Panel -->
-                    <div class="dashboard-panel active compact-panel" id="overview-panel">
-                        <h2>Dashboard Overview</h2>
-                        <div class="compact-stats-grid">
-                            <div class="compact-stat-card">
-                                <h3>Active Jobs</h3>
-                                <p class="stat-number">0</p>
-                            </div>
-                            <div class="compact-stat-card">
-                                <h3>Pending Apps</h3>
-                                <p class="stat-number">0</p>
-                            </div>
-                            <div class="compact-stat-card">
-                                <h3>Upcoming</h3>
-                                <p class="stat-number">0</p>
-                            </div>
-                            <div class="compact-stat-card">
-                                <h3>Balance</h3>
-                                <p class="stat-number">$0.00</p>
-                            </div>
-                        </div>
-                        
-                        <div class="recent-activity">
-                            <h3>Recent Activity</h3>
-                            <ul class="activity-list">
-                                <li>No recent activity</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <!-- Profile Panel -->
-                    <div class="dashboard-panel compact-panel" id="profile-panel">
-                        <h2>My Profile</h2>
-                        <div id="profile-error-message" class="error-message" style="display: none;"></div>
-                        <form id="profile-form" class="short-form">
-                            <div class="form-group">
-                                <label for="profile-name">Full Name</label>
-                                <input type="text" id="profile-name" name="profile-name" class="form-control" value="">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="profile-email">Email Address</label>
-                                <input type="email" id="profile-email" name="profile-email" class="form-control" value="">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="profile-phone">Phone Number</label>
-                                <input type="tel" id="profile-phone" name="profile-phone" class="form-control" value="">
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </form>
-                    </div>
-                    
-                    <!-- Jobs Panel -->
-                    <div class="dashboard-panel compact-panel" id="jobs-panel">
-                        <div class="panel-header">
-                            <h2>My Jobs</h2>
-                            <button class="btn btn-primary" id="add-job-btn">Create New Job</button>
-                        </div>
-                        <div class="compact-jobs-list" id="jobs-list">
-                            <div class="compact-job-card">
-                                <h3>No Jobs Found</h3>
-                                <p class="job-details">Create your first job to get started</p>
-                                <div class="job-actions">
-                                    <button class="btn btn-primary" id="create-first-job">Create Job</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Workers Gallery Panel for Employers -->
-                    <div class="dashboard-panel compact-panel" id="workers-panel">
-                        <div class="panel-header">
-                            <h2>Browse Workers</h2>
-                            <p>Find the perfect professional for your household needs</p>
-                        </div>
-                        <div class="search-container">
-                            <form id="worker-search-form" class="search-form">
-                                <div class="search-input-group">
-                                    <input type="text" class="form-control search-input" placeholder="Service type (e.g., cleaning)" id="worker-search-query">
-                                    <button type="submit" class="btn btn-primary search-button">Search</button>
-                                </div>
-                            </form>
-                            
-                            <div class="search-filters">
-                                <div class="filter-group">
-                                    <label>Service:</label>
-                                    <select class="form-control filter-select" id="worker-filter-service">
-                                        <option value="">All</option>
-                                        <option value="cleaning">Cleaning</option>
-                                        <option value="childcare">Childcare</option>
-                                        <option value="cooking">Cooking</option>
-                                        <option value="maintenance">Maintenance</option>
-                                        <option value="gardening">Gardening</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="filter-group">
-                                    <label>Price:</label>
-                                    <select class="form-control filter-select" id="worker-filter-price">
-                                        <option value="">Any</option>
-                                        <option value="0-20">$0-20</option>
-                                        <option value="20-30">$20-30</option>
-                                        <option value="30-40">$30-40</option>
-                                        <option value="40+">$40+</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="filter-group">
-                                    <label>Rating:</label>
-                                    <select class="form-control filter-select" id="worker-filter-rating">
-                                        <option value="">Any</option>
-                                        <option value="5">5★</option>
-                                        <option value="4">4★+</option>
-                                        <option value="3">3★+</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="results-header">
-                            <h3 id="workers-results-count">Available Workers</h3>
-                            <div class="sort-options">
-                                <label>Sort:</label>
-                                <select class="form-control sort-select" id="workers-sort-options">
-                                    <option value="rating">Rating</option>
-                                    <option value="price-low">Price: Low</option>
-                                    <option value="price-high">Price: High</option>
-                                    <option value="name">Name</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div id="workers-results-container">
-                            <div id="workers-loading-message" style="text-align: center; padding: 1rem; display: none;">
-                                <p>Loading workers...</p>
-                            </div>
-                            <div id="workers-error-message" class="error-message" style="display: none;"></div>
-                            <div id="workers-results-grid" class="results-grid">
-                                <!-- Worker cards will be dynamically inserted here -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Messages Panel -->
-                    <div class="dashboard-panel compact-panel" id="messages-panel">
-                        <h2>Messages</h2>
-                        <div class="messages-container">
-                            <div class="message-list">
-                                <div class="message-item active">
-                                    <div class="message-sender">System</div>
-                                    <div class="message-preview">No messages yet</div>
-                                    <div class="message-time">Just now</div>
-                                </div>
-                            </div>
-                            
-                            <div class="message-thread">
-                                <div class="message-thread-header">
-                                    <h3>System</h3>
-                                </div>
-                                <div class="message-thread-content">
-                                    <div class="message received">
-                                        <div class="message-text">Welcome! Your messages will appear here.</div>
-                                        <div class="message-time">Just now</div>
-                                    </div>
-                                </div>
-                                <div class="message-input">
-                                    <input type="text" class="form-control" placeholder="Type your message...">
-                                    <button class="btn btn-primary">Send</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Payments Panel -->
-                    <div class="dashboard-panel compact-panel" id="payments-panel">
-                        <h2>Payments</h2>
-                        <div class="compact-stats-grid">
-                            <div class="compact-stat-card">
-                                <h3>Total Earned</h3>
-                                <p class="stat-number">$0.00</p>
-                            </div>
-                            <div class="compact-stat-card">
-                                <h3>Pending</h3>
-                                <p class="stat-number">$0.00</p>
-                            </div>
-                            <div class="compact-stat-card">
-                                <h3>This Month</h3>
-                                <p class="stat-number">$0.00</p>
-                            </div>
-                        </div>
-                        
-                        <h3>Payment History</h3>
-                        <table class="payments-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="4" style="text-align: center;">No payment history</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Settings Panel -->
-                    <div class="dashboard-panel compact-panel" id="settings-panel">
-                        <h2>Account Settings</h2>
-                        <form id="settings-form" class="short-form">
-                            <div class="form-group">
-                                <label for="notification-email">Email Notifications</label>
-                                <select id="notification-email" name="notification-email" class="form-control">
-                                    <option value="all">All notifications</option>
-                                    <option value="important">Important only</option>
-                                    <option value="none">None</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="password-current">Current Password</label>
-                                <input type="password" id="password-current" name="password-current" class="form-control">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="password-new">New Password</label>
-                                <input type="password" id="password-new" name="password-new" class="form-control">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="password-confirm">Confirm New Password</label>
-                                <input type="password" id="password-confirm" name="password-confirm" class="form-control">
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary">Save Settings</button>
-                        </form>
-                    </div>
-                    
-                    <!-- Admin Panel -->
-                    <div class="dashboard-panel compact-panel" id="admin-panel">
-                        <h2>Admin Panel</h2>
-                        <div class="admin-dashboard">
-                            <div class="compact-stats-grid">
-                                <div class="compact-stat-card">
-                                    <h3>Total Users</h3>
-                                    <p class="stat-number" id="total-users">0</p>
-                                </div>
-                                <div class="compact-stat-card">
-                                    <h3>Total Workers</h3>
-                                    <p class="stat-number" id="total-workers">0</p>
-                                </div>
-                                <div class="compact-stat-card">
-                                    <h3>Total Employers</h3>
-                                    <p class="stat-number" id="total-employers">0</p>
-                                </div>
-                                <div class="compact-stat-card">
-                                    <h3>Pending Verifications</h3>
-                                    <p class="stat-number" id="pending-verifications">0</p>
-                                </div>
-                            </div>
-                            
-                            <div class="admin-sections">
-                                <div class="admin-section">
-                                    <h3>User Management</h3>
-                                    <div class="admin-actions">
-                                        <button class="btn btn-primary" id="view-users-btn">View All Users</button>
-                                        <button class="btn btn-outline" id="verify-users-btn">Verify Users</button>
-                                    </div>
-                                </div>
-                                
-                                <div class="admin-section">
-                                    <h3>Job Management</h3>
-                                    <div class="admin-actions">
-                                        <button class="btn btn-primary" id="view-jobs-btn">View All Jobs</button>
-                                        <button class="btn btn-outline" id="manage-disputes-btn">Manage Disputes</button>
-                                    </div>
-                                </div>
-                                
-                                <div class="admin-section">
-                                    <h3>System Reports</h3>
-                                    <div class="admin-actions">
-                                        <button class="btn btn-primary" id="generate-report-btn">Generate Report</button>
-                                        <button class="btn btn-outline" id="view-analytics-btn">View Analytics</button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="recent-admin-activity">
-                                <h3>Recent Admin Activity</h3>
-                                <ul class="activity-list" id="admin-activity-list">
-                                    <li>No recent admin activity</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Create Job Modal -->
-    <div class="modal" id="create-job-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Create New Job</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="create-job-form" class="short-form">
-                    <div class="form-group">
-                        <label for="job-title">Job Title</label>
-                        <input type="text" id="job-title" name="title" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="job-service-type">Service Type</label>
-                        <select id="job-service-type" name="service_type" class="form-control" required>
-                            <option value="">Select service</option>
-                            <option value="cleaning">House Cleaning</option>
-                            <option value="childcare">Childcare</option>
-                            <option value="cooking">Cooking</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="gardening">Gardening</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="job-description">Description</label>
-                        <textarea id="job-description" name="description" class="form-control" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="job-date">Date</label>
-                        <input type="date" id="job-date" name="date" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="job-time">Time</label>
-                        <input type="time" id="job-time" name="time" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="job-price">Estimated Price ($)</label>
-                        <input type="number" id="job-price" name="price_estimate" class="form-control" min="0" step="0.01">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline close-modal-btn">Cancel</button>
-                <button class="btn btn-primary" id="submit-job-btn">Create Job</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Worker Profile Modal -->
-    <div class="modal" id="worker-profile-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Worker Profile</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body" id="worker-profile-content">
-                <!-- Worker profile content will be loaded here -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline close-modal-btn">Close</button>
-                <button class="btn btn-primary" id="book-worker-btn">Book Now</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2023 HouseholdWorkers. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/api.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        // Dashboard functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('You must be logged in to access the dashboard.');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Set up user info
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            document.getElementById('user-name').textContent = payload.name || 'User';
-            document.getElementById('user-role').innerHTML = 'Role: <span>' + (payload.role === 'employer' ? 'Employer' : payload.role === 'worker' ? 'Worker' : 'Administrator') + '</span>';
-            
-            // Show admin panel if user is admin
-            if (payload.role === 'admin') {
-                document.getElementById('admin-nav-item').style.display = 'block';
-                
-                // Hide user-specific nav items for admin
-                document.getElementById('profile-nav-item').style.display = 'none';
-                document.getElementById('jobs-nav-item').style.display = 'none';
-                document.getElementById('messages-nav-item').style.display = 'none';
-                document.getElementById('payments-nav-item').style.display = 'none';
-                
-                // Load admin dashboard data
-                loadAdminDashboard();
-            }
-            // Show workers panel if user is employer
-            else if (payload.role === 'employer') {
-                document.getElementById('workers-nav-item').style.display = 'block';
-                document.getElementById('create-job-btn').style.display = 'block';
-                
-                // Load workers gallery
-                loadWorkersGallery();
-                
-                // Load employer dashboard data
-                loadEmployerDashboardData(payload.userId || payload.id);
-                
-                // Automatically show workers panel for employers
-                // Update active nav link
-                navLinks.forEach(link => link.classList.remove('active'));
-                document.querySelector('[data-target="workers"]').classList.add('active');
-                
-                // Show workers panel and hide others
-                panels.forEach(panel => {
-                    panel.classList.remove('active');
-                    if (panel.id === 'workers-panel') {
-                        panel.classList.add('active');
-                    }
-                });
-            }
-
-            // Navigation between dashboard panels
-            let navLinks = document.querySelectorAll('.nav-link');
-            let panels = document.querySelectorAll('.dashboard-panel');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Get target panel
-                    const target = this.getAttribute('data-target');
-                    
-                    // Update active nav link
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show target panel and hide others
-                    panels.forEach(panel => {
-                        panel.classList.remove('active');
-                        if (panel.id === target + '-panel') {
-                            panel.classList.add('active');
-                            
-                            // Load data when panel is activated
-                            if (target === 'overview' && payload.role === 'employer') {
-                                loadEmployerDashboardData(payload.userId || payload.id);
-                            }
-                        }
-                    });
-                });
-            });
-            
-            // Logout functionality
-            const logoutLink = document.getElementById('logout-link');
-            if (logoutLink) {
-                logoutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (confirm('Are you sure you want to logout?')) {
-                        // Clear token and redirect to home
-                        localStorage.removeItem('token');
-                        window.location.href = 'index.html';
-                    }
-                });
-            }
-            
-            // Profile form submission
-            const profileForm = document.getElementById('profile-form');
-            const profileErrorMessage = document.getElementById('profile-error-message');
-            
-            if (profileForm) {
-                profileForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    // In a real app, you would send this data to your server
-                    profileErrorMessage.style.display = 'none';
-                    alert('Profile updated successfully!');
-                });
-            }
-            
-            // Settings form submission
-            const settingsForm = document.getElementById('settings-form');
-            
-            if (settingsForm) {
-                settingsForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Settings saved successfully!');
-                });
-            }
-            
-            // Modal functionality
-            const modals = document.querySelectorAll('.modal');
-            const closeModalButtons = document.querySelectorAll('.close-modal, .close-modal-btn');
-            
-            // Open modal function
-            window.openModal = function(modalId) {
-                document.getElementById(modalId).classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-            
-            // Close modal function
-            window.closeModal = function(modalId) {
-                document.getElementById(modalId).classList.remove('active');
-                document.body.style.overflow = 'auto';
-            };
-            
-            // Close modals when clicking outside
-            modals.forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-            });
-            
-            // Close modal buttons
-            closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const modal = this.closest('.modal');
-                    if (modal) {
-                        modal.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-            });
-            
-            // Create job button functionality
-            const createJobBtn = document.getElementById('create-job-btn');
-            const addJobBtn = document.getElementById('add-job-btn');
-            const createFirstJobBtn = document.getElementById('create-first-job');
-            const submitJobBtn = document.getElementById('submit-job-btn');
-            
-            if (createJobBtn) {
-                createJobBtn.addEventListener('click', function() {
-                    openModal('create-job-modal');
-                });
-            }
-            
-            if (addJobBtn) {
-                addJobBtn.addEventListener('click', function() {
-                    openModal('create-job-modal');
-                });
-            }
-            
-            if (createFirstJobBtn) {
-                createFirstJobBtn.addEventListener('click', function() {
-                    openModal('create-job-modal');
-                });
-            }
-            
-            if (submitJobBtn) {
-                submitJobBtn.addEventListener('click', function() {
-                    // In a real app, you would submit the form data to your server
-                    alert('Job created successfully!');
-                    closeModal('create-job-modal');
-                    // Reset form
-                    document.getElementById('create-job-form').reset();
-                });
-            }
-            
-            // Employer dashboard data loading
-            async function loadEmployerDashboardData(userId) {
-                try {
-                    // Load jobs data
-                    const jobsResponse = await api.getJobs({ employer_id: userId });
-                    updateJobsData(jobsResponse.jobs);
-                    
-                    // Update stats
-                    updateEmployerStats(jobsResponse.jobs);
-                } catch (error) {
-                    console.error('Error loading employer dashboard data:', error);
-                }
-            }
-            
-            function updateJobsData(jobs) {
-                const jobsList = document.getElementById('jobs-list');
-                if (jobs && jobs.length > 0) {
-                    jobsList.innerHTML = jobs.map(job => `
-                        <div class="compact-job-card">
-                            <h3>${job.title}</h3>
-                            <p class="job-details">Service: ${job.service_type} | Status: ${job.status}</p>
-                            <p class="job-status"><span class="status-${job.status}">${job.status.charAt(0).toUpperCase() + job.status.slice(1)}</span></p>
-                            <div class="job-actions">
-                                <button class="btn btn-outline">View</button>
-                                <button class="btn btn-primary">Manage</button>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    jobsList.innerHTML = `
-                        <div class="compact-job-card">
-                            <h3>No Jobs Found</h3>
-                            <p class="job-details">Create your first job to get started</p>
-                            <div class="job-actions">
-                                <button class="btn btn-primary" onclick="openModal('create-job-modal')">Create Job</button>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            
-            function updateEmployerStats(jobs) {
-                // Count active jobs (open or in_progress)
-                const activeJobs = jobs.filter(job => job.status === 'open' || job.status === 'in_progress').length;
-                
-                // Count pending applications (would need to query bookings)
-                const pendingApplications = 0; // This would require a separate API call
-                
-                // Count upcoming jobs (future dates)
-                const upcomingJobs = jobs.filter(job => {
-                    if (job.start_time) {
-                        const jobDate = new Date(job.start_time);
-                        const today = new Date();
-                        return jobDate > today;
-                    }
-                    return false;
-                }).length;
-                
-                // Update stats
-                document.querySelector('.compact-stat-card:nth-child(1) .stat-number').textContent = activeJobs;
-                document.querySelector('.compact-stat-card:nth-child(2) .stat-number').textContent = pendingApplications;
-                document.querySelector('.compact-stat-card:nth-child(3) .stat-number').textContent = upcomingJobs;
-                
-                // Account balance would come from payments API
-                // For now, we'll keep the mock value
-            }
-            
-            // Workers gallery functionality for employers
-            function loadWorkersGallery() {
-                const workerSearchForm = document.getElementById('worker-search-form');
-                const workersResultsGrid = document.getElementById('workers-results-grid');
-                const workersResultsCount = document.getElementById('workers-results-count');
-                const workersLoadingMessage = document.getElementById('workers-loading-message');
-                const workersErrorMessage = document.getElementById('workers-error-message');
-                
-                // Load initial workers
-                loadWorkers();
-                
-                // Add event listener for search form
-                if (workerSearchForm) {
-                    workerSearchForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        await searchWorkers();
-                    });
-                }
-                
-                async function searchWorkers() {
-                    // Show loading message
-                    workersLoadingMessage.style.display = 'block';
-                    workersErrorMessage.style.display = 'none';
-                    workersResultsGrid.innerHTML = '';
-                    
-                    try {
-                        // Get search parameters
-                        const query = document.getElementById('worker-search-query').value;
-                        const service = document.getElementById('worker-filter-service').value;
-                        const price = document.getElementById('worker-filter-price').value;
-                        const rating = document.getElementById('worker-filter-rating').value;
-                        
-                        // Build filters object
-                        const filters = {};
-                        if (query) filters.query = query;
-                        if (service) filters.service = service;
-                        if (rating) filters.minRating = rating;
-                        
-                        // Add price filter if selected
-                        if (price) {
-                            if (price === '40+') {
-                                filters.maxPrice = 9999;
-                                filters.minPrice = 40;
-                            } else {
-                                const [min, max] = price.split('-');
-                                if (min) filters.minPrice = min;
-                                if (max) filters.maxPrice = max;
-                            }
-                        }
-                        
-                        // Call API to search workers
-                        const response = await api.getWorkers(filters);
-                        
-                        // Hide loading message
-                        workersLoadingMessage.style.display = 'none';
-                        
-                        // Update results count
-                        workersResultsCount.textContent = `${response.count} Available Workers`;
-                        
-                        // Display results
-                        displayWorkers(response.workers);
-                    } catch (error) {
-                        // Hide loading message
-                        workersLoadingMessage.style.display = 'none';
-                        
-                        // Show error message
-                        showWorkerError(error.message || 'An error occurred while searching for workers.');
-                    }
-                }
-                
-                async function loadWorkers() {
-                    // Show loading message
-                    workersLoadingMessage.style.display = 'block';
-                    workersErrorMessage.style.display = 'none';
-                    workersResultsGrid.innerHTML = '';
-                    
-                    try {
-                        // Call API to get all workers
-                        const response = await api.getWorkers();
-                        
-                        // Hide loading message
-                        workersLoadingMessage.style.display = 'none';
-                        
-                        // Update results count
-                        workersResultsCount.textContent = `${response.count} Available Workers`;
-                        
-                        // Display results
-                        displayWorkers(response.workers);
-                    } catch (error) {
-                        // Hide loading message
-                        workersLoadingMessage.style.display = 'none';
-                        
-                        // Show error message
-                        showWorkerError(error.message || 'An error occurred while loading workers.');
-                    }
-                }
-                
-                function displayWorkers(workers) {
-                    if (workers.length === 0) {
-                        workersResultsGrid.innerHTML = '<p>No workers found matching your criteria.</p>';
-                        return;
-                    }
-                    
-                    workersResultsGrid.innerHTML = workers.map(worker => {
-                        // Parse service categories if they're stored as JSON
-                        let serviceCategories = [];
-                        if (worker.service_categories) {
-                            try {
-                                serviceCategories = typeof worker.service_categories === 'string' 
-                                    ? JSON.parse(worker.service_categories) 
-                                    : worker.service_categories;
-                            } catch (e) {
-                                serviceCategories = [worker.service_categories];
-                            }
-                        }
-                        
-                        // Parse skills if they're stored as JSON
-                        let skills = [];
-                        if (worker.skills) {
-                            try {
-                                skills = typeof worker.skills === 'string' 
-                                    ? JSON.parse(worker.skills) 
-                                    : worker.skills;
-                            } catch (e) {
-                                skills = [worker.skills];
-                            }
-                        }
-                        
-                        return `
-                        <div class="worker-card">
-                            <div class="worker-card-image">
-                                <img src="https://via.placeholder.com/300x200" alt="${worker.name}">
-                            </div>
-                            <div class="worker-card-content">
-                                <div class="worker-card-header">
-                                    <h3>${worker.name}</h3>
-                                    <div class="worker-rating">
-                                        <span class="stars">${'★'.repeat(Math.floor(worker.rating))}${'☆'.repeat(5 - Math.floor(worker.rating))}</span>
-                                        <span class="rating-value">${worker.rating}</span>
-                                    </div>
-                                </div>
-                                <p class="worker-service">${serviceCategories && serviceCategories.length > 0 ? serviceCategories[0] : 'Professional Service Provider'}</p>
-                                <p class="worker-location">📍 New York, NY</p>
-                                <p class="worker-price">$${worker.hourly_rate || 25}<span>/hour</span></p>
-                                <div class="worker-skills">
-                                    ${(skills || []).slice(0, 3).map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                                </div>
-                                <div class="worker-card-actions">
-                                    <button class="btn btn-outline" onclick="viewWorkerProfile(${worker.id})">View Profile</button>
-                                    <button class="btn btn-primary" onclick="bookWorker(${worker.id})">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    `}).join('');
-                }
-                
-                function showWorkerError(message) {
-                    workersErrorMessage.textContent = message;
-                    workersErrorMessage.style.display = 'block';
-                    workersErrorMessage.style.color = '#dc3545';
-                    workersErrorMessage.style.padding = '10px';
-                    workersErrorMessage.style.borderRadius = '4px';
-                    workersErrorMessage.style.marginBottom = '15px';
-                    workersErrorMessage.style.backgroundColor = '#f8d7da';
-                    workersErrorMessage.style.borderColor = '#f5c6cb';
-                }
-                
-                // View profile buttons
-                window.viewWorkerProfile = function(workerId) {
-                    // Redirect to worker profile page with worker ID
-                    window.location.href = `worker-profile.html?id=${workerId}`;
-                };
-                
-                // Book now buttons
-                window.bookWorker = function(workerId) {
-                    // Redirect to worker profile page with worker ID and booking parameter
-                    window.location.href = `worker-profile.html?id=${workerId}&book=true`;
-                };
-            }
-            
-            // Admin panel functionality
-            function loadAdminDashboard() {
-                // In a real app, you would fetch this data from your API
-                // For now, we'll keep the mock data but note that it should be replaced
-                document.getElementById('total-users').textContent = '0';
-                document.getElementById('total-workers').textContent = '0';
-                document.getElementById('total-employers').textContent = '0';
-                document.getElementById('pending-verifications').textContent = '0';
-                
-                // Update admin activity list
-                const adminActivityList = document.getElementById('admin-activity-list');
-                adminActivityList.innerHTML = '<li>No recent admin activity</li>';
-                
-                // Add event listeners for admin actions
-                document.getElementById('view-users-btn').addEventListener('click', function() {
-                    alert('View all users functionality would be implemented here');
-                });
-                
-                document.getElementById('verify-users-btn').addEventListener('click', function() {
-                    alert('User verification functionality would be implemented here');
-                });
-                
-                document.getElementById('view-jobs-btn').addEventListener('click', function() {
-                    alert('View all jobs functionality would be implemented here');
-                });
-                
-                document.getElementById('manage-disputes-btn').addEventListener('click', function() {
-                    alert('Manage disputes functionality would be implemented here');
-                });
-                
-                document.getElementById('generate-report-btn').addEventListener('click', function() {
-                    alert('Generate report functionality would be implemented here');
-                });
-                
-                document.getElementById('view-analytics-btn').addEventListener('click', function() {
-                    alert('View analytics functionality would be implemented here');
-                });
-            }
-            
-            // Render stars for ratings
-            function renderStars(rating) {
-                let stars = '';
-                for (let i = 0; i < 5; i++) {
-                    if (i < rating) {
-                        stars += '★';
-                    } else {
-                        stars += '☆';
-                    }
-                }
-                return stars;
-            }
-
             // Render workers in the results grid
             function renderWorkers(workers) {
                 const container = document.getElementById('workers-results-grid');
@@ -970,27 +8,151 @@
                     return;
                 }
                     
-                container.innerHTML = workers.map(worker => `
-                    <div class="worker-card">
-                        <div class="worker-card-image">
-                            <img src="https://via.placeholder.com/100" alt="${worker.name}">
-                        </div>
-                        <div class="worker-card-content">
-                            <h3>${worker.name}</h3>
-                            <p class="worker-skills">${worker.service_categories ? worker.service_categories.join(', ') : 'General Services'}</p>
-                            <div class="worker-rating">
-                                ${renderStars(worker.rating || 0)}
-                                <span class="rating-text">${worker.rating || '0.0'}</span>
-                            </div>
-                            <div class="worker-actions">
-                                <button class="btn btn-outline" onclick="viewWorkerProfile(${worker.id})">View Profile</button>
-                                <button class="btn btn-primary" onclick="bookWorker(${worker.id})">Book Now</button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
+                container.innerHTML = workers.map(worker => {
+                    return '<div class="worker-card">' +
+                        '<div class="worker-card-image">' +
+                            '<img src="https://via.placeholder.com/100" alt="' + (worker.name || '') + '">' +
+                        '</div>' +
+                        '<div class="worker-card-content">' +
+                            '<h3>' + (worker.name || 'Unknown') + '</h3>' +
+                            '<p class="worker-skills">' + (worker.service_categories ? worker.service_categories.join(', ') : 'General Services') + '</p>' +
+                            '<div class="worker-rating">' +
+                                renderStars(worker.rating || 0) +
+                                '<span class="rating-text">' + (worker.rating || '0.0') + '</span>' +
+                            '</div>' +
+                            '<div class="worker-actions">' +
+                                '<button class="btn btn-outline" onclick="viewWorkerProfile(' + worker.id + ')">View Profile</button>' +
+                                '<button class="btn btn-primary" onclick="bookWorker(' + worker.id + ')">Book Now</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+            }
+        });
+        
+        // Show success dialog function
+        function showSuccessDialog(message) {
+            const successDialog = document.getElementById('success-dialog');
+            const successDialogContent = document.getElementById('success-dialog-content');
+            if (successDialog && successDialogContent) {
+                successDialogContent.textContent = message;
+                successDialog.classList.add('show');
+                
+                // Auto close after 5 seconds
+                setTimeout(() => {
+                    closeSuccessDialog();
+                }, 5000);
+            }
+        }
+        
+        // Show error dialog function
+        function showErrorDialog(message) {
+            const errorDialog = document.getElementById('error-dialog');
+            const errorDialogContent = document.getElementById('error-dialog-content');
+            if (errorDialog && errorDialogContent) {
+                errorDialogContent.textContent = message;
+                errorDialog.classList.add('show');
+                
+                // Auto close after 5 seconds
+                setTimeout(() => {
+                    closeErrorDialog();
+                }, 5000);
+            }
+        }
+        
+        // View worker profile
+        function viewWorkerProfile(workerId) {
+            window.location.href = 'worker-profile.html?id=' + workerId;
+        }
+        
+        // Book worker
+        function bookWorker(workerId) {
+            window.location.href = 'worker-profile.html?id=' + workerId + '&book=true';
+        }
+        
+        // Dialog box functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const successDialog = document.getElementById('success-dialog');
+            const errorDialog = document.getElementById('error-dialog');
+            const successDialogClose = document.getElementById('success-dialog-close');
+            const errorDialogClose = document.getElementById('error-dialog-close');
+            const successDialogCloseBtn = successDialog ? successDialog.querySelector('.dialog-close') : null;
+            const errorDialogCloseBtn = errorDialog ? errorDialog.querySelector('.dialog-close') : null;
+            
+            // Close dialog functions
+            window.closeSuccessDialog = function() {
+                if (successDialog) {
+                    successDialog.classList.remove('show');
+                }
+            };
+            
+            window.closeErrorDialog = function() {
+                if (errorDialog) {
+                    errorDialog.classList.remove('show');
+                }
+            };
+            
+            // Event listeners for dialog close buttons
+            if (successDialogClose) {
+                successDialogClose.addEventListener('click', closeSuccessDialog);
+            }
+            if (errorDialogClose) {
+                errorDialogClose.addEventListener('click', closeErrorDialog);
+            }
+            if (successDialogCloseBtn) {
+                successDialogCloseBtn.addEventListener('click', closeSuccessDialog);
+            }
+            if (errorDialogCloseBtn) {
+                errorDialogCloseBtn.addEventListener('click', closeErrorDialog);
+            }
+            
+            // Close dialogs when clicking outside content
+            if (successDialog) {
+                successDialog.addEventListener('click', function(e) {
+                    if (e.target === successDialog) {
+                        closeSuccessDialog();
+                    }
+                });
+            }
+            
+            if (errorDialog) {
+                errorDialog.addEventListener('click', function(e) {
+                    if (e.target === errorDialog) {
+                        closeErrorDialog();
+                    }
+                });
             }
         });
     </script>
+    
+    <!-- Success Dialog Box -->
+    <div class="dialog-box" id="success-dialog" style="display: none;">
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✓</span>
+            <h3 class="dialog-title">Success</h3>
+        </div>
+        <div class="dialog-content" id="success-dialog-content">
+            Operation completed successfully!
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-primary" id="success-dialog-close">OK</button>
+        </div>
+    </div>
+
+    <!-- Error Dialog Box -->
+    <div class="dialog-box error" id="error-dialog" style="display: none;">
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✗</span>
+            <h3 class="dialog-title">Error</h3>
+        </div>
+        <div class="dialog-content" id="error-dialog-content">
+            An error occurred. Please try again.
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-secondary" id="error-dialog-close">OK</button>
+        </div>
+    </div>
 </body>
 </html>

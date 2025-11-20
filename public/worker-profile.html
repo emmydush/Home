@@ -201,6 +201,36 @@
         </div>
     </div>
 
+    <!-- Success Dialog Box -->
+    <div class="dialog-box" id="success-dialog">
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✓</span>
+            <h3 class="dialog-title">Success</h3>
+        </div>
+        <div class="dialog-content" id="success-dialog-content">
+            Operation completed successfully!
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-primary" id="success-dialog-close">OK</button>
+        </div>
+    </div>
+
+    <!-- Error Dialog Box -->
+    <div class="dialog-box error" id="error-dialog">
+        <button class="dialog-close">&times;</button>
+        <div class="dialog-header">
+            <span class="dialog-icon">✗</span>
+            <h3 class="dialog-title">Error</h3>
+        </div>
+        <div class="dialog-content" id="error-dialog-content">
+            An error occurred. Please try again.
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-dialog btn-dialog-secondary" id="error-dialog-close">OK</button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
@@ -221,8 +251,10 @@
             const shouldBook = urlParams.get('book') === 'true';
             
             if (!workerId) {
-                alert('No worker ID specified');
-                window.location.href = 'dashboard.html';
+                showErrorDialog('No worker ID specified');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
                 return;
             }
             
@@ -234,7 +266,7 @@
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    alert('Message sent successfully! The worker will contact you soon.');
+                    showSuccessDialog('Message sent successfully! The worker will contact you soon.');
                     contactForm.reset();
                 });
             }
@@ -264,7 +296,7 @@
                 
                 submitBookingBtn.addEventListener('click', function() {
                     // In a real app, this would submit the booking to the server
-                    alert('Booking request submitted successfully! The worker will confirm your appointment soon.');
+                    showSuccessDialog('Booking request submitted successfully! The worker will confirm your appointment soon.');
                     closeModal('booking-modal');
                     bookingForm.reset();
                 });
@@ -317,7 +349,69 @@
                 }
                 openModal('booking-modal');
             };
+            
+            // Dialog box functionality
+            const successDialog = document.getElementById('success-dialog');
+            const errorDialog = document.getElementById('error-dialog');
+            const successDialogClose = document.getElementById('success-dialog-close');
+            const errorDialogClose = document.getElementById('error-dialog-close');
+            const successDialogCloseBtn = successDialog.querySelector('.dialog-close');
+            const errorDialogCloseBtn = errorDialog.querySelector('.dialog-close');
+            
+            // Close dialog functions
+            window.closeSuccessDialog = function() {
+                successDialog.classList.remove('show');
+            };
+            
+            window.closeErrorDialog = function() {
+                errorDialog.classList.remove('show');
+            };
+            
+            // Event listeners for dialog close buttons
+            successDialogClose.addEventListener('click', closeSuccessDialog);
+            errorDialogClose.addEventListener('click', closeErrorDialog);
+            successDialogCloseBtn.addEventListener('click', closeSuccessDialog);
+            errorDialogCloseBtn.addEventListener('click', closeErrorDialog);
+            
+            // Close dialogs when clicking outside content
+            successDialog.addEventListener('click', function(e) {
+                if (e.target === successDialog) {
+                    closeSuccessDialog();
+                }
+            });
+            
+            errorDialog.addEventListener('click', function(e) {
+                if (e.target === errorDialog) {
+                    closeErrorDialog();
+                }
+            });
         });
+        
+        // Show success dialog function
+        function showSuccessDialog(message) {
+            const successDialog = document.getElementById('success-dialog');
+            const successDialogContent = document.getElementById('success-dialog-content');
+            successDialogContent.textContent = message;
+            successDialog.classList.add('show');
+            
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeSuccessDialog();
+            }, 5000);
+        }
+        
+        // Show error dialog function
+        function showErrorDialog(message) {
+            const errorDialog = document.getElementById('error-dialog');
+            const errorDialogContent = document.getElementById('error-dialog-content');
+            errorDialogContent.textContent = message;
+            errorDialog.classList.add('show');
+            
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeErrorDialog();
+            }, 5000);
+        }
         
         async function loadWorkerData(workerId) {
             try {
@@ -442,13 +536,17 @@
                         }, 1000);
                     }
                 } else {
-                    alert('Worker not found');
-                    window.location.href = 'dashboard.html';
+                    showErrorDialog('Worker not found');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
                 }
             } catch (error) {
                 console.error('Error loading worker data:', error);
-                alert('Error loading worker data. Please try again.');
-                window.location.href = 'dashboard.html';
+                showErrorDialog('Error loading worker data. Please try again.');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
             }
         }
     </script>
