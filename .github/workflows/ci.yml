@@ -14,8 +14,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: household_workers_test
+          POSTGRES_PASSWORD: Jesuslove@12
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -46,7 +47,11 @@ jobs:
     - name: Create .env file
       run: |
         touch .env
-        echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/household_workers_test" >> .env
+        echo "DB_USER=postgres" >> .env
+        echo "DB_HOST=localhost" >> .env
+        echo "DB_PASSWORD=Jesuslove@12" >> .env
+        echo "DB_PORT=5432" >> .env
+        echo "DB_NAME=household_workers_test" >> .env
         echo "JWT_SECRET=your-jwt-secret-here" >> .env
         echo "PORT=3000" >> .env
 
