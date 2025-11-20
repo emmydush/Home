@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Household Workers Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Household<span>Workers</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html" class="btn btn-outline">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Signup Form -->
+    <section class="signup-section">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="text-center mb-3">Create Your Account</h2>
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required minlength="6">
+                        <div class="form-text">Password must be at least 6 characters long</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role">I am a:</label>
+                        <select id="role" name="role" class="form-control" required>
+                            <option value="">Select your role</option>
+                            <option value="employer">Employer (Looking to hire)</option>
+                            <option value="worker">Worker (Looking for work)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-large w-100">Sign Up</button>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="login.html">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2023 HouseholdWorkers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Additional signup-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signup-form');
+            const errorMessage = document.getElementById('error-message');
+            
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide previous error messages
+                errorMessage.style.display = 'none';
+                
+                // Get form data
+                const formData = new FormData(signupForm);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Simple validation
+                let isValid = true;
+                signupForm.querySelectorAll('.form-control').forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.style.borderColor = '#dc3545';
+                    } else {
+                        input.style.borderColor = '#ced4da';
+                    }
+                });
+                
+                if (!isValid) {
+                    showError('Please fill in all required fields.');
+                    return;
+                }
+                
+                try {
+                    // Disable submit button during request
+                    const submitButton = signupForm.querySelector('button[type="submit"]');
+                    const originalText = submitButton.textContent;
+                    submitButton.textContent = 'Signing up...';
+                    submitButton.disabled = true;
+                    
+                    // Call API to signup
+                    const response = await api.signup(data);
+                    
+                    // Re-enable submit button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    
+                    // Show success message
+                    alert('Account created successfully! Please check your email for verification.');
+                    
+                    // Store token and redirect based on role
+                    api.setToken(response.token);
+                    
+                    if (data.role === 'employer') {
+                        window.location.href = 'dashboard.html';
+                    } else if (data.role === 'worker') {
+                        window.location.href = 'dashboard.html';
+                    }
+                } catch (error) {
+                    // Re-enable submit button
+                    const submitButton = signupForm.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Sign Up';
+                    submitButton.disabled = false;
+                    
+                    showError(error.message || 'An error occurred during signup.');
+                }
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.color = '#dc3545';
+                errorMessage.style.padding = '10px';
+                errorMessage.style.borderRadius = '4px';
+                errorMessage.style.marginBottom = '15px';
+                errorMessage.style.backgroundColor = '#f8d7da';
+                errorMessage.style.borderColor = '#f5c6cb';
+            }
+        });
+    </script>
+</body>
+</html>

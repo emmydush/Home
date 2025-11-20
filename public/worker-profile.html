@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Profile - Household Workers Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Household<span>Workers</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Worker Profile -->
+    <section class="worker-profile">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/150" alt="Worker Photo">
+                </div>
+                <div class="profile-info">
+                    <h1 id="worker-name">Jane Smith</h1>
+                    <p class="worker-title">Professional House Cleaner & Childcare Specialist</p>
+                    <div class="worker-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-value">4.8</span>
+                        <span class="review-count">(127 reviews)</span>
+                    </div>
+                    <p class="worker-location">📍 New York, NY</p>
+                    <button class="btn btn-primary">Book Now</button>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <h2>About Me</h2>
+                        <p id="worker-bio">I'm a professional house cleaner with over 5 years of experience. I specialize in deep cleaning, organizing, and maintaining homes to the highest standards. I also have experience in childcare and can help with homework, meals, and activities for children of all ages.</p>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Skills & Services</h2>
+                        <div class="skills-list">
+                            <span class="skill-tag">House Cleaning</span>
+                            <span class="skill-tag">Deep Cleaning</span>
+                            <span class="skill-tag">Childcare</span>
+                            <span class="skill-tag">Meal Preparation</span>
+                            <span class="skill-tag">Laundry</span>
+                            <span class="skill-tag">Organization</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Availability</h2>
+                        <div class="availability-calendar">
+                            <div class="calendar-header">
+                                <button class="btn btn-outline">‹</button>
+                                <h3>June 2023</h3>
+                                <button class="btn btn-outline">›</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-day available">Mon 12</div>
+                                <div class="calendar-day available">Tue 13</div>
+                                <div class="calendar-day booked">Wed 14</div>
+                                <div class="calendar-day available">Thu 15</div>
+                                <div class="calendar-day available">Fri 16</div>
+                                <div class="calendar-day weekend">Sat 17</div>
+                                <div class="calendar-day weekend">Sun 18</div>
+                                <!-- More days would be shown in a real implementation -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Pricing</h2>
+                        <div class="pricing-options">
+                            <div class="pricing-card">
+                                <h3>Standard Cleaning</h3>
+                                <p class="price">$25<span>/hour</span></p>
+                                <ul>
+                                    <li>Basic cleaning tasks</li>
+                                    <li>Vacuuming and mopping</li>
+                                    <li>Bathroom and kitchen cleaning</li>
+                                </ul>
+                            </div>
+                            <div class="pricing-card">
+                                <h3>Deep Cleaning</h3>
+                                <p class="price">$35<span>/hour</span></p>
+                                <ul>
+                                    <li>Move-in/move-out cleaning</li>
+                                    <li>Inside appliances</li>
+                                    <li>Baseboards and fixtures</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Reviews</h2>
+                        <div class="reviews-list">
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <strong>Michael T.</strong>
+                                        <div class="stars">★★★★★</div>
+                                    </div>
+                                    <div class="review-date">May 15, 2023</div>
+                                </div>
+                                <p class="review-text">Jane was excellent! She cleaned our entire house thoroughly and even helped organize our pantry. Highly recommend!</p>
+                            </div>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <strong>Sarah K.</strong>
+                                        <div class="stars">★★★★★</div>
+                                    </div>
+                                    <div class="review-date">May 3, 2023</div>
+                                </div>
+                                <p class="review-text">Very professional and detail-oriented. Jane was also great with my kids. Will definitely hire again!</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Load More Reviews</button>
+                    </div>
+                </div>
+
+                <div class="profile-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Contact Worker</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="contact-name">Your Name</label>
+                                <input type="text" id="contact-name" name="contact-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email</label>
+                                <input type="email" id="contact-email" name="contact-email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Message</label>
+                                <textarea id="contact-message" name="contact-message" class="form-control" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Verification</h3>
+                        <div class="verification-status">
+                            <div class="verification-item verified">
+                                <span class="status-icon">✓</span>
+                                <span>ID Verified</span>
+                            </div>
+                            <div class="verification-item verified">
+                                <span class="status-icon">✓</span>
+                                <span>Background Check</span>
+                            </div>
+                            <div class="verification-item verified">
+                                <span class="status-icon">✓</span>
+                                <span>Insurance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2023 HouseholdWorkers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Worker profile functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Message sent successfully! The worker will contact you soon.');
+                    contactForm.reset();
+                });
+            }
+            
+            // Book now button
+            const bookButton = document.querySelector('.profile-info .btn-primary');
+            if (bookButton) {
+                bookButton.addEventListener('click', function() {
+                    alert('Redirecting to booking page...');
+                    // In a real app, this would redirect to the booking page
+                });
+            }
+        });
+    </script>
+</body>
+</html>

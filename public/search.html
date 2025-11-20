@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Workers - Household Workers Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Household<span>Workers</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-header">
+                <h1>Find Household Professionals</h1>
+                <p>Search for verified and rated professionals in your area</p>
+            </div>
+
+            <div class="search-container">
+                <form id="search-form" class="search-form">
+                    <div class="search-input-group">
+                        <input type="text" class="form-control search-input" placeholder="What service do you need? (e.g., cleaning, childcare, cooking)" id="search-query">
+                        <input type="text" class="form-control search-input" placeholder="Location (city or zip code)" id="search-location">
+                        <button type="submit" class="btn btn-primary search-button">Search</button>
+                    </div>
+                </form>
+
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label>Service Type:</label>
+                        <select class="form-control filter-select" id="filter-service">
+                            <option value="">All Services</option>
+                            <option value="cleaning">House Cleaning</option>
+                            <option value="childcare">Childcare</option>
+                            <option value="cooking">Cooking</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="gardening">Gardening</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Price Range:</label>
+                        <select class="form-control filter-select" id="filter-price">
+                            <option value="">Any Price</option>
+                            <option value="0-20">$0 - $20/hour</option>
+                            <option value="20-30">$20 - $30/hour</option>
+                            <option value="30-40">$30 - $40/hour</option>
+                            <option value="40+">$40+/hour</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Rating:</label>
+                        <select class="form-control filter-select" id="filter-rating">
+                            <option value="">Any Rating</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4+ Stars</option>
+                            <option value="3">3+ Stars</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Availability:</label>
+                        <select class="form-control filter-select" id="filter-availability">
+                            <option value="">Any Time</option>
+                            <option value="today">Today</option>
+                            <option value="tomorrow">Tomorrow</option>
+                            <option value="week">This Week</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Results -->
+    <section class="search-results">
+        <div class="container">
+            <div class="results-header">
+                <h2 id="results-count">Professionals Found</h2>
+                <div class="sort-options">
+                    <label>Sort by:</label>
+                    <select class="form-control sort-select" id="sort-options">
+                        <option value="relevance">Relevance</option>
+                        <option value="rating">Rating</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="distance">Distance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="results-container">
+                <div id="loading-message" style="text-align: center; padding: 2rem; display: none;">
+                    <p>Loading professionals...</p>
+                </div>
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="results-grid" class="results-grid">
+                    <!-- Worker cards will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="btn btn-outline">Previous</button>
+                <span class="page-numbers">
+                    <span class="current-page">1</span>
+                    <a href="#" class="page-link">2</a>
+                    <a href="#" class="page-link">3</a>
+                    <a href="#" class="page-link">4</a>
+                    <a href="#" class="page-link">5</a>
+                </span>
+                <button class="btn btn-outline">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2023 HouseholdWorkers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('search-form');
+            const resultsGrid = document.getElementById('results-grid');
+            const resultsCount = document.getElementById('results-count');
+            const loadingMessage = document.getElementById('loading-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Load initial workers
+            loadWorkers();
+            
+            searchForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await searchWorkers();
+            });
+            
+            async function searchWorkers() {
+                // Show loading message
+                loadingMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                resultsGrid.innerHTML = '';
+                
+                try {
+                    // Get search parameters
+                    const query = document.getElementById('search-query').value;
+                    const location = document.getElementById('search-location').value;
+                    const service = document.getElementById('filter-service').value;
+                    const price = document.getElementById('filter-price').value;
+                    const rating = document.getElementById('filter-rating').value;
+                    
+                    // Build filters object
+                    const filters = {};
+                    if (query) filters.query = query;
+                    if (service) filters.service = service;
+                    if (rating) filters.minRating = rating;
+                    
+                    // Add price filter if selected
+                    if (price) {
+                        if (price === '40+') {
+                            filters.maxPrice = 9999;
+                            filters.minPrice = 40;
+                        } else {
+                            const [min, max] = price.split('-');
+                            if (min) filters.minPrice = min;
+                            if (max) filters.maxPrice = max;
+                        }
+                    }
+                    
+                    // Call API to search workers
+                    const response = await api.getWorkers(filters);
+                    
+                    // Hide loading message
+                    loadingMessage.style.display = 'none';
+                    
+                    // Update results count
+                    resultsCount.textContent = `${response.count} Professionals Found`;
+                    
+                    // Display results
+                    displayWorkers(response.workers);
+                } catch (error) {
+                    // Hide loading message
+                    loadingMessage.style.display = 'none';
+                    
+                    // Show error message
+                    showError(error.message || 'An error occurred while searching for professionals.');
+                }
+            }
+            
+            async function loadWorkers() {
+                // Show loading message
+                loadingMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                resultsGrid.innerHTML = '';
+                
+                try {
+                    // Call API to get all workers
+                    const response = await api.getWorkers();
+                    
+                    // Hide loading message
+                    loadingMessage.style.display = 'none';
+                    
+                    // Update results count
+                    resultsCount.textContent = `${response.count} Professionals Found`;
+                    
+                    // Display results
+                    displayWorkers(response.workers);
+                } catch (error) {
+                    // Hide loading message
+                    loadingMessage.style.display = 'none';
+                    
+                    // Show error message
+                    showError(error.message || 'An error occurred while loading professionals.');
+                }
+            }
+            
+            function displayWorkers(workers) {
+                if (workers.length === 0) {
+                    resultsGrid.innerHTML = '<p>No professionals found matching your criteria.</p>';
+                    return;
+                }
+                
+                resultsGrid.innerHTML = workers.map(worker => `
+                    <div class="worker-card">
+                        <div class="worker-card-image">
+                            <img src="https://via.placeholder.com/300x200" alt="${worker.name}">
+                        </div>
+                        <div class="worker-card-content">
+                            <div class="worker-card-header">
+                                <h3>${worker.name}</h3>
+                                <div class="worker-rating">
+                                    <span class="stars">${'★'.repeat(Math.floor(worker.rating))}${'☆'.repeat(5 - Math.floor(worker.rating))}</span>
+                                    <span class="rating-value">${worker.rating}</span>
+                                </div>
+                            </div>
+                            <p class="worker-service">${worker.service_categories && worker.service_categories.length > 0 ? worker.service_categories[0] : 'Professional Service Provider'}</p>
+                            <p class="worker-location">📍 New York, NY</p>
+                            <p class="worker-price">$${worker.hourly_rate || 25}<span>/hour</span></p>
+                            <div class="worker-skills">
+                                ${(worker.skills || []).slice(0, 3).map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                            </div>
+                            <div class="worker-card-actions">
+                                <button class="btn btn-outline" onclick="viewWorkerProfile(${worker.id})">View Profile</button>
+                                <button class="btn btn-primary" onclick="bookWorker(${worker.id})">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.color = '#dc3545';
+                errorMessage.style.padding = '10px';
+                errorMessage.style.borderRadius = '4px';
+                errorMessage.style.marginBottom = '15px';
+                errorMessage.style.backgroundColor = '#f8d7da';
+                errorMessage.style.borderColor = '#f5c6cb';
+            }
+            
+            // View profile buttons
+            window.viewWorkerProfile = function(workerId) {
+                window.location.href = `worker-profile.html?id=${workerId}`;
+            };
+            
+            // Book now buttons
+            window.bookWorker = function(workerId) {
+                alert(`Redirecting to booking page for worker ${workerId}...`);
+                // In a real app, this would redirect to the booking page
+            };
+            
+            // Logout functionality
+            const logoutLink = document.getElementById('logout-link');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Clear token and redirect to home
+                        localStorage.removeItem('token');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
