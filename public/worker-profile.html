@@ -28,18 +28,18 @@
         <div class="container">
             <div class="profile-header">
                 <div class="profile-image">
-                    <img src="https://via.placeholder.com/150" alt="Worker Photo">
+                    <img src="https://via.placeholder.com/150" alt="Worker Photo" id="worker-photo">
                 </div>
                 <div class="profile-info">
-                    <h1 id="worker-name">Jane Smith</h1>
-                    <p class="worker-title">Professional House Cleaner & Childcare Specialist</p>
+                    <h1 id="worker-name">Loading...</h1>
+                    <p class="worker-title" id="worker-title">Loading...</p>
                     <div class="worker-rating">
-                        <span class="stars">★★★★★</span>
-                        <span class="rating-value">4.8</span>
-                        <span class="review-count">(127 reviews)</span>
+                        <span class="stars" id="worker-stars">★★★★★</span>
+                        <span class="rating-value" id="worker-rating">0.0</span>
+                        <span class="review-count" id="review-count">(0 reviews)</span>
                     </div>
-                    <p class="worker-location">📍 New York, NY</p>
-                    <button class="btn btn-primary">Book Now</button>
+                    <p class="worker-location">📍 <span id="worker-location">Loading...</span></p>
+                    <button class="btn btn-primary" id="book-now-btn">Book Now</button>
                 </div>
             </div>
 
@@ -47,18 +47,13 @@
                 <div class="profile-main">
                     <div class="profile-section">
                         <h2>About Me</h2>
-                        <p id="worker-bio">I'm a professional house cleaner with over 5 years of experience. I specialize in deep cleaning, organizing, and maintaining homes to the highest standards. I also have experience in childcare and can help with homework, meals, and activities for children of all ages.</p>
+                        <p id="worker-bio">Loading worker information...</p>
                     </div>
 
                     <div class="profile-section">
                         <h2>Skills & Services</h2>
-                        <div class="skills-list">
-                            <span class="skill-tag">House Cleaning</span>
-                            <span class="skill-tag">Deep Cleaning</span>
-                            <span class="skill-tag">Childcare</span>
-                            <span class="skill-tag">Meal Preparation</span>
-                            <span class="skill-tag">Laundry</span>
-                            <span class="skill-tag">Organization</span>
+                        <div class="skills-list" id="skills-list">
+                            <!-- Skills will be populated here -->
                         </div>
                     </div>
 
@@ -66,19 +61,12 @@
                         <h2>Availability</h2>
                         <div class="availability-calendar">
                             <div class="calendar-header">
-                                <button class="btn btn-outline">‹</button>
-                                <h3>June 2023</h3>
-                                <button class="btn btn-outline">›</button>
+                                <button class="btn btn-outline" id="prev-month">‹</button>
+                                <h3 id="calendar-month">Loading...</h3>
+                                <button class="btn btn-outline" id="next-month">›</button>
                             </div>
-                            <div class="calendar-grid">
-                                <div class="calendar-day available">Mon 12</div>
-                                <div class="calendar-day available">Tue 13</div>
-                                <div class="calendar-day booked">Wed 14</div>
-                                <div class="calendar-day available">Thu 15</div>
-                                <div class="calendar-day available">Fri 16</div>
-                                <div class="calendar-day weekend">Sat 17</div>
-                                <div class="calendar-day weekend">Sun 18</div>
-                                <!-- More days would be shown in a real implementation -->
+                            <div class="calendar-grid" id="calendar-grid">
+                                <!-- Calendar days will be populated here -->
                             </div>
                         </div>
                     </div>
@@ -87,51 +75,34 @@
                         <h2>Pricing</h2>
                         <div class="pricing-options">
                             <div class="pricing-card">
-                                <h3>Standard Cleaning</h3>
-                                <p class="price">$25<span>/hour</span></p>
+                                <h3>Standard Service</h3>
+                                <p class="price">$<span id="hourly-rate">0</span><span>/hour</span></p>
                                 <ul>
                                     <li>Basic cleaning tasks</li>
                                     <li>Vacuuming and mopping</li>
                                     <li>Bathroom and kitchen cleaning</li>
                                 </ul>
+                                <button class="btn btn-outline" onclick="selectService('standard')">Select Plan</button>
                             </div>
                             <div class="pricing-card">
-                                <h3>Deep Cleaning</h3>
-                                <p class="price">$35<span>/hour</span></p>
+                                <h3>Premium Service</h3>
+                                <p class="price">$<span id="premium-rate">0</span><span>/hour</span></p>
                                 <ul>
-                                    <li>Move-in/move-out cleaning</li>
+                                    <li>Deep cleaning</li>
                                     <li>Inside appliances</li>
                                     <li>Baseboards and fixtures</li>
                                 </ul>
+                                <button class="btn btn-primary" onclick="selectService('premium')">Select Plan</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="profile-section">
                         <h2>Reviews</h2>
-                        <div class="reviews-list">
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <div class="reviewer-info">
-                                        <strong>Michael T.</strong>
-                                        <div class="stars">★★★★★</div>
-                                    </div>
-                                    <div class="review-date">May 15, 2023</div>
-                                </div>
-                                <p class="review-text">Jane was excellent! She cleaned our entire house thoroughly and even helped organize our pantry. Highly recommend!</p>
-                            </div>
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <div class="reviewer-info">
-                                        <strong>Sarah K.</strong>
-                                        <div class="stars">★★★★★</div>
-                                    </div>
-                                    <div class="review-date">May 3, 2023</div>
-                                </div>
-                                <p class="review-text">Very professional and detail-oriented. Jane was also great with my kids. Will definitely hire again!</p>
-                            </div>
+                        <div class="reviews-list" id="reviews-list">
+                            <p>Loading reviews...</p>
                         </div>
-                        <button class="btn btn-outline">Load More Reviews</button>
+                        <button class="btn btn-outline" id="load-more-reviews" style="display: none; margin-top: 1rem;">Load More Reviews</button>
                     </div>
                 </div>
 
@@ -158,16 +129,16 @@
                     <div class="sidebar-card">
                         <h3>Verification</h3>
                         <div class="verification-status">
-                            <div class="verification-item verified">
-                                <span class="status-icon">✓</span>
-                                <span>ID Verified</span>
+                            <div class="verification-item" id="id-verification">
+                                <span class="status-icon">✗</span>
+                                <span>ID Verification</span>
                             </div>
-                            <div class="verification-item verified">
-                                <span class="status-icon">✓</span>
+                            <div class="verification-item" id="background-check">
+                                <span class="status-icon">✗</span>
                                 <span>Background Check</span>
                             </div>
-                            <div class="verification-item verified">
-                                <span class="status-icon">✓</span>
+                            <div class="verification-item" id="insurance">
+                                <span class="status-icon">✗</span>
                                 <span>Insurance</span>
                             </div>
                         </div>
@@ -176,6 +147,59 @@
             </div>
         </div>
     </section>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal">
+        <div class="modal-content booking-modal-content">
+            <div class="modal-header">
+                <h2>Book Service with <span id="worker-modal-name">Worker</span></h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="booking-form" class="booking-form">
+                    <div class="form-group">
+                        <label for="booking-service">Service Type</label>
+                        <select id="booking-service" name="service_type" class="form-control" required>
+                            <option value="">Select service</option>
+                            <option value="cleaning">House Cleaning</option>
+                            <option value="childcare">Childcare</option>
+                            <option value="cooking">Cooking</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="gardening">Gardening</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-date">Date</label>
+                        <input type="date" id="booking-date" name="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-time">Time</label>
+                        <input type="time" id="booking-time" name="time" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-duration">Duration (hours)</label>
+                        <input type="number" id="booking-duration" name="duration" class="form-control" min="1" max="8" value="2" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking-notes">Special Notes</label>
+                        <textarea id="booking-notes" name="notes" class="form-control" rows="3" placeholder="Any special requirements or instructions"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Estimated Cost: <span class="estimated-cost">$<span id="estimated-cost">0.00</span></span></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal-btn">Cancel</button>
+                <button class="btn btn-primary" id="submit-booking-btn">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">
@@ -186,10 +210,25 @@
         </div>
     </footer>
 
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
     <script>
         // Worker profile functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Get worker ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const workerId = urlParams.get('id');
+            const shouldBook = urlParams.get('book') === 'true';
+            
+            if (!workerId) {
+                alert('No worker ID specified');
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            // Load worker data
+            loadWorkerData(workerId);
+            
             // Contact form submission
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
@@ -201,14 +240,217 @@
             }
             
             // Book now button
-            const bookButton = document.querySelector('.profile-info .btn-primary');
+            const bookButton = document.getElementById('book-now-btn');
             if (bookButton) {
                 bookButton.addEventListener('click', function() {
-                    alert('Redirecting to booking page...');
-                    // In a real app, this would redirect to the booking page
+                    openModal('booking-modal');
                 });
             }
+            
+            // Booking form submission
+            const bookingForm = document.getElementById('booking-form');
+            const submitBookingBtn = document.getElementById('submit-booking-btn');
+            const hourlyRateElement = document.getElementById('hourly-rate');
+            
+            if (bookingForm && submitBookingBtn) {
+                // Update estimated cost when duration changes
+                const durationInput = document.getElementById('booking-duration');
+                durationInput.addEventListener('input', function() {
+                    const hourlyRate = parseFloat(hourlyRateElement.textContent) || 0;
+                    const duration = parseFloat(this.value) || 0;
+                    const estimatedCost = hourlyRate * duration;
+                    document.getElementById('estimated-cost').textContent = estimatedCost.toFixed(2);
+                });
+                
+                submitBookingBtn.addEventListener('click', function() {
+                    // In a real app, this would submit the booking to the server
+                    alert('Booking request submitted successfully! The worker will confirm your appointment soon.');
+                    closeModal('booking-modal');
+                    bookingForm.reset();
+                });
+            }
+            
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const closeModalButtons = document.querySelectorAll('.close-modal, .close-modal-btn');
+            
+            // Open modal function
+            window.openModal = function(modalId) {
+                document.getElementById(modalId).classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+            
+            // Close modal function
+            window.closeModal = function(modalId) {
+                document.getElementById(modalId).classList.remove('active');
+                document.body.style.overflow = 'auto';
+            };
+            
+            // Close modals when clicking outside
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Close modal buttons
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Service selection
+            window.selectService = function(serviceType) {
+                const serviceSelect = document.getElementById('booking-service');
+                if (serviceType === 'standard') {
+                    serviceSelect.value = 'cleaning';
+                } else {
+                    serviceSelect.value = 'cleaning'; // Default to cleaning for premium
+                }
+                openModal('booking-modal');
+            };
         });
+        
+        async function loadWorkerData(workerId) {
+            try {
+                // Fetch worker data from API
+                const response = await api.getWorker(workerId);
+                
+                if (response.success && response.worker) {
+                    const worker = response.worker;
+                    
+                    // Update profile header
+                    document.getElementById('worker-name').textContent = worker.name || 'Unknown';
+                    document.getElementById('worker-modal-name').textContent = worker.name || 'Worker';
+                    document.getElementById('worker-title').textContent = worker.service_categories && worker.service_categories.length > 0 
+                        ? worker.service_categories.join(', ') 
+                        : 'Professional Service Provider';
+                    
+                    // Update rating
+                    const rating = parseFloat(worker.rating) || 0;
+                    const fullStars = Math.floor(rating);
+                    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+                    const emptyStars = 5 - fullStars - halfStar;
+                    
+                    let starsHtml = '★'.repeat(fullStars);
+                    if (halfStar) starsHtml += '☆';
+                    starsHtml += '☆'.repeat(emptyStars);
+                    
+                    document.getElementById('worker-stars').innerHTML = starsHtml;
+                    document.getElementById('worker-rating').textContent = rating.toFixed(1);
+                    document.getElementById('review-count').textContent = `(0 reviews)`; // Would need separate API call for actual reviews
+                    
+                    // Update location
+                    document.getElementById('worker-location').textContent = 'New York, NY'; // Would come from address data
+                    
+                    // Update bio
+                    document.getElementById('worker-bio').textContent = worker.bio || 'No bio available.';
+                    
+                    // Update skills
+                    const skillsList = document.getElementById('skills-list');
+                    if (worker.skills && worker.skills.length > 0) {
+                        try {
+                            const skills = typeof worker.skills === 'string' 
+                                ? JSON.parse(worker.skills) 
+                                : worker.skills;
+                            skillsList.innerHTML = skills.map(skill => 
+                                `<span class="skill-tag">${skill}</span>`
+                            ).join('');
+                        } catch (e) {
+                            skillsList.innerHTML = `<span class="skill-tag">${worker.skills}</span>`;
+                        }
+                    } else {
+                        skillsList.innerHTML = '<p>No skills listed.</p>';
+                    }
+                    
+                    // Update pricing
+                    const hourlyRate = parseFloat(worker.hourly_rate) || 25;
+                    document.getElementById('hourly-rate').textContent = hourlyRate.toFixed(2);
+                    document.getElementById('premium-rate').textContent = (hourlyRate * 1.4).toFixed(2);
+                    
+                    // Update calendar (simplified for demo)
+                    const now = new Date();
+                    const monthNames = ["January", "February", "March", "April", "May", "June",
+                                      "July", "August", "September", "October", "November", "December"];
+                    document.getElementById('calendar-month').textContent = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+                    
+                    // Generate sample calendar days
+                    const calendarGrid = document.getElementById('calendar-grid');
+                    calendarGrid.innerHTML = '';
+                    for (let i = 1; i <= 30; i++) {
+                        const dayElement = document.createElement('div');
+                        dayElement.className = 'calendar-day ' + (i % 3 === 0 ? 'available' : 'booked');
+                        dayElement.textContent = `${i < 10 ? '0' : ''}${i}`;
+                        calendarGrid.appendChild(dayElement);
+                    }
+                    
+                    // Update verification status
+                    const idVerification = document.getElementById('id-verification');
+                    const backgroundCheck = document.getElementById('background-check');
+                    const insurance = document.getElementById('insurance');
+                    
+                    // For demo purposes, show all as verified
+                    idVerification.className = 'verification-item verified';
+                    idVerification.innerHTML = '<span class="status-icon">✓</span><span>ID Verified</span>';
+                    
+                    backgroundCheck.className = 'verification-item verified';
+                    backgroundCheck.innerHTML = '<span class="status-icon">✓</span><span>Background Check</span>';
+                    
+                    insurance.className = 'verification-item verified';
+                    insurance.innerHTML = '<span class="status-icon">✓</span><span>Insurance</span>';
+                    
+                    // Update reviews (simplified for demo)
+                    const reviewsList = document.getElementById('reviews-list');
+                    reviewsList.innerHTML = `
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <strong>Michael T.</strong>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                                <div class="review-date">May 15, 2023</div>
+                            </div>
+                            <p class="review-text">Excellent service! Highly recommend.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <strong>Sarah K.</strong>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                                <div class="review-date">May 3, 2023</div>
+                            </div>
+                            <p class="review-text">Very professional and detail-oriented.</p>
+                        </div>
+                    `;
+                    
+                    // If book parameter is true, automatically open booking modal after loading data
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const shouldBook = urlParams.get('book') === 'true';
+                    if (shouldBook) {
+                        // Wait a bit for data to load before opening modal
+                        setTimeout(function() {
+                            openModal('booking-modal');
+                        }, 1000);
+                    }
+                } else {
+                    alert('Worker not found');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error('Error loading worker data:', error);
+                alert('Error loading worker data. Please try again.');
+                window.location.href = 'dashboard.html';
+            }
+        }
     </script>
 </body>
 </html>

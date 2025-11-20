@@ -89,7 +89,7 @@ router.get('/', async (req, res) => {
             paramCount++;
         }
         
-        query += ' ORDER BY j.created_at DESC';
+        query += ' ORDER BY j.id DESC';
         
         const result = await db.query(query, params);
         

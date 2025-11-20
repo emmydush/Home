@@ -49,7 +49,8 @@ An advanced web application connecting employers with household workers (cleaner
 - **Real-time**: Socket.IO
 - **Authentication**: JWT
 - **Payments**: Stripe (integration ready)
-- **Deployment**: Docker-ready
+- **Deployment**: Docker-ready, Render-ready
+- **CI/CD**: GitHub Actions
 
 ## Database Schema
 
@@ -92,6 +93,35 @@ The application uses PostgreSQL with the following key tables:
    ```
 3. The application will be available at http://localhost:3000
 
+### Option 3: Render Deployment
+
+1. Fork this repository to your GitHub account
+2. Create a new Web Service on Render
+3. Connect your GitHub repository
+4. Set the following environment variables in Render:
+   - `DATABASE_URL` - Your PostgreSQL database connection string
+   - `JWT_SECRET` - Your JWT secret key
+   - `PORT` - 10000 (Render's default port)
+5. Add the build command: `npm install`
+6. Add the start command: `npm start`
+
+## GitHub Workflows
+
+This project includes several GitHub Actions workflows for continuous integration and deployment:
+
+### CI/CD Pipeline
+- Automated testing on push and pull requests
+- Multi-node version testing (18.x and 20.x)
+- PostgreSQL database setup for testing
+- Security audits and dependency checks
+
+### Render Deployment
+- Automated deployment to Render on push to main branch
+- Uses Render API for deployment triggering
+- Health checks and notifications
+
+To use these workflows, you need to set up the required secrets in your GitHub repository settings.
+
 ## Project Structure
 
 ```
@@ -106,6 +136,7 @@ The application uses PostgreSQL with the following key tables:
 │   └── seed.js             # Sample data
 ├── routes/                 # API routes
 ├── middleware/             # Express middleware
+├── .github/workflows/      # GitHub Actions workflows
 ├── Dockerfile              # Docker configuration
 ├── docker-compose.yml      # Docker Compose configuration
 ├── server.js               # Main server file

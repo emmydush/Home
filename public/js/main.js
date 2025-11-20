@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Form submission handling
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form)');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
