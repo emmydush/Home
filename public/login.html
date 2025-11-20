@@ -1,2 +1,9 @@
                     // Show success message
                     showSuccessDialog('Login successful!');
+                    
+                    // Delay redirect to allow dialog to be visible
+                    setTimeout(() => {
+                        // Store token and redirect to dashboard
+                        api.setToken(response.token);
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
