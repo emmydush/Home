@@ -9,7 +9,7 @@ async function initDatabase() {
     
     if (!databaseUrl) {
         console.error('❌ DATABASE_URL environment variable not set');
-        process.exit(1);
+        throw new Error('DATABASE_URL environment variable not set');
     }
     
     let client;
@@ -63,20 +63,28 @@ async function initDatabase() {
         
         await client.end();
         console.log('🎉 Database initialization completed successfully!');
-        process.exit(0);
+        return true;
         
     } catch (error) {
         console.error('❌ Database initialization failed:', error.message);
         if (client) {
             await client.end();
         }
-        process.exit(1);
+        throw error;
     }
 }
 
-// Run the initialization
+// Run the initialization if this file is executed directly
 if (require.main === module) {
-    initDatabase();
+    initDatabase()
+        .then(() => {
+            console.log('Database initialization script completed successfully');
+            process.exit(0);
+        })
+        .catch((error) => {
+            console.error('Database initialization script failed:', error.message);
+            process.exit(1);
+        });
 }
 
 module.exports = { initDatabase };

@@ -10,9 +10,20 @@ const workersRoutes = require('./routes/workers');
 const jobsRoutes = require('./routes/jobs');
 const healthRoutes = require('./routes/health');
 
+// Import database initialization
+const { initDatabase } = require('./render-init');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+// Initialize database on startup if on Render
+if (process.env.DATABASE_URL && process.env.NODE_ENV !== 'development') {
+  console.log('🚀 Initializing database for Render deployment...');
+  initDatabase().catch(err => {
+    console.error('❌ Database initialization failed:', err.message);
+  });
+}
 
 // Middleware
 app.use(express.json());
